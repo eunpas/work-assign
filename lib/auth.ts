@@ -16,27 +16,36 @@ function secret() {
 
 export const cookieName = (code: string) => `wa_admin_${code}`;
 
-const sign = (body: string) => crypto.createHmac('sha256', secret()).update(body).digest('base64url');
+// 서명에 현재 비밀번호 해시를 섞는다 → 비밀번호를 바꾸면 기존 로그인은 모두 풀린다
+const sign = (body: string, pwHash: string) => crypto.createHmac('sha256', secret()).update(`${body}|${pwHash}`).digest('base64url');
 
-export function makeToken(branchId: string) {
-  const body = `${branchId}.${Date.now() + SESSION_HOURS * 3600 * 1000}`;
-  return `${body}.${sign(body)}`;
+export function makeToken(b: Pick<Branch, 'id' | 'admin_password_hash'>) {
+  const body = `${b.id}.${Date.now() + SESSION_HOURS * 3600 * 1000}`;
+  return `${body}.${sign(body, b.admin_password_hash)}`;
 }
 
-export function verifyToken(token: string, branchId: string) {
+export function verifyToken(token: string, b: Pick<Branch, 'id' | 'admin_password_hash'>) {
   const parts = token.split('.');
   if (parts.length !== 3) return false;
   const [id, exp, sig] = parts;
-  if (id !== branchId || Number(exp) < Date.now()) return false;
-  const a = Buffer.from(sig);
-  const b = Buffer.from(sign(`${id}.${exp}`));
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
+  if (id !== b.id || Number(exp) < Date.now()) return false;
+  const x = Buffer.from(sig);
+  const y = Buffer.from(sign(`${id}.${exp}`, b.admin_password_hash));
+  return x.length === y.length && crypto.timingSafeEqual(x, y);
 }
 
 export async function isAdminFor(b: Branch) {
   const c = (await cookies()).get(cookieName(b.code))?.value;
-  return !!c && verifyToken(c, b.id);
+  return !!c && verifyToken(c, b);
 }
+
+export const cookieOptions = {
+  httpOnly: true,
+  sameSite: 'lax' as const,
+  secure: process.env.NODE_ENV === 'production',
+  path: '/',
+  maxAge: SESSION_HOURS * 3600,
+};
 
 export function randomCode(len = 12) {
   const chars = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';

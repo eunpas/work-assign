@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
-import { cookieName, makeToken, SESSION_HOURS } from '@/lib/auth';
+import { cookieName, cookieOptions, makeToken } from '@/lib/auth';
 import { body, getBranch, HttpError, route, type CodeCtx } from '@/lib/server';
 
 export const POST = route<CodeCtx>(async (req, { params }) => {
@@ -13,13 +13,7 @@ export const POST = route<CodeCtx>(async (req, { params }) => {
     throw new HttpError(401, '비밀번호가 맞지 않아요');
   }
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(cookieName(code), makeToken(b.id), {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge: SESSION_HOURS * 3600,
-  });
+  res.cookies.set(cookieName(code), makeToken(b), cookieOptions);
   return res;
 });
 

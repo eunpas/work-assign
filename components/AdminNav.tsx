@@ -9,6 +9,7 @@ const TABS = [
   { href: 'routines', label: '작업 루틴', icon: '🧰' },
   { href: 'members', label: '팀원', icon: '👥' },
   { href: 'absences', label: '부재', icon: '🌴' },
+  { href: 'settings', label: '설정', icon: '⚙️' },
 ];
 
 export function AdminNav({ code, branchName, localMode }: { code: string; branchName: string; localMode: boolean }) {
