@@ -7,7 +7,7 @@ const DEV_SECRET = 'dev-only-insecure-secret-change-me-0123456789';
 
 function secret() {
   const s = process.env.SESSION_SECRET;
-  if (!s && process.env.NODE_ENV === 'production' && process.env.SUPABASE_URL) throw new Error('SESSION_SECRET 환경변수가 필요해요');
+  if (!s && process.env.NODE_ENV === 'production' && process.env.SUPABASE_SERVICE_ROLE_KEY) throw new Error('SESSION_SECRET 환경변수가 필요해요');
   return s || DEV_SECRET;
 }
 

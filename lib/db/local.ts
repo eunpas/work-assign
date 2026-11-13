@@ -20,7 +20,9 @@ interface DB {
   cells: (Cell & { plan_id: string })[];
 }
 
-const FILE = process.env.LOCAL_DB_PATH || path.join(process.cwd(), '.data', 'db.json');
+// Vercel에서는 /tmp만 쓸 수 있음 (서버가 바뀌면 초기화되는 임시 시연용)
+const FILE =
+  process.env.LOCAL_DB_PATH || (process.env.VERCEL ? path.join('/tmp', 'work-assign-db.json') : path.join(process.cwd(), '.data', 'db.json'));
 
 function load(): DB {
   if (!fs.existsSync(FILE)) {
