@@ -33,7 +33,9 @@ npm run build   # 배포용 빌드 확인
   - `schema.sql` 적용, 가상 데이터(2개 지사, 23명, 루틴 110개) 입력 완료
 - Vercel 프로젝트 `work-assign` 생성 (함수 리전 서울 icn1, Node 22, `SUPABASE_URL` 입력 완료, 운영 주소는 공개·미리보기는 로그인 보호)
   - 남은 환경변수: `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_SECRET` (Vercel 화면에서 직접 입력)
-- GitHub: 저장소 생성·코드 올리기 필요
+- GitHub: https://github.com/eunpas/work-assign (main)
+- 운영 주소: https://work-assign-beta.vercel.app — 가상 수원지사 `/b/sw7Qx2mPa9Lk`
+  - 비밀 키 2개를 넣기 전에는 임시 저장소(/tmp)로 동작해 저장 내용이 사라질 수 있음
 
 ## 배포 (처음 한 번)
 
