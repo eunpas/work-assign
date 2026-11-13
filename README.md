@@ -48,7 +48,7 @@ npm run build   # 배포용 빌드 확인
    |---|---|
    | `SUPABASE_URL` | Supabase 프로젝트 주소 |
    | `SUPABASE_SERVICE_ROLE_KEY` | Supabase 비밀 키 (**서버 전용, 절대 공개 금지**) |
-   | `SESSION_SECRET` | 로그인 쿠키 서명용 무작위 문자열 (32자 이상) |
+   | `SESSION_SECRET` | (선택) 로그인 쿠키 서명용 무작위 문자열 32자 이상. 비우거나 `REPLACE_ME`면 Supabase 비밀 키에서 자동 생성 |
 
 4. 발급된 주소 + `/b/sw7Qx2mPa9Lk` 로 접속해 확인합니다.
 5. 이후에는 GitHub에 올리면 Vercel이 자동으로 다시 배포합니다.
