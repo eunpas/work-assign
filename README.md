@@ -37,6 +37,7 @@ npm run build   # 배포용 빌드 확인
 - GitHub: https://github.com/eunpas/work-assign (main)
 - 운영 주소: https://work-assign-beta.vercel.app — 가상 수원지사 `/b/sw7Qx2mPa9Lk`
   - Supabase 연결 완료 (`SUPABASE_SERVICE_ROLE_KEY` 입력됨, `SESSION_SECRET`은 자동 생성)
+  - GitHub `main`에 올리면 Vercel이 자동으로 다시 배포
 
 ## 배포 (처음 한 번)
 
