@@ -7,10 +7,11 @@ const DEV_SECRET = 'dev-only-insecure-secret-change-me-0123456789';
 
 function secret() {
   const raw = process.env.SESSION_SECRET;
-  const s = raw && raw !== 'REPLACE_ME' && raw.length >= 16 ? raw : undefined;
+  if (raw && raw !== 'REPLACE_ME' && raw.length >= 16) return raw;
+  // SESSION_SECRET이 없으면 서버만 아는 Supabase 비밀 키에서 서명용 비밀값을 만들어 쓴다
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!s && process.env.NODE_ENV === 'production' && key && key !== 'REPLACE_ME') throw new Error('SESSION_SECRET 환경변수(32자 이상)가 필요해요');
-  return s || DEV_SECRET;
+  if (key && key !== 'REPLACE_ME') return crypto.createHash('sha256').update(`work-assign-session:${key}`).digest('base64url');
+  return DEV_SECRET;
 }
 
 export const cookieName = (code: string) => `wa_admin_${code}`;
