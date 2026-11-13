@@ -35,7 +35,7 @@ npm run build   # 배포용 빌드 확인
   - 남은 환경변수: `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_SECRET` (Vercel 화면에서 직접 입력)
 - GitHub: https://github.com/eunpas/work-assign (main)
 - 운영 주소: https://work-assign-beta.vercel.app — 가상 수원지사 `/b/sw7Qx2mPa9Lk`
-  - 비밀 키 2개를 넣기 전에는 임시 저장소(/tmp)로 동작해 저장 내용이 사라질 수 있음
+  - Supabase 연결 완료 (`SUPABASE_SERVICE_ROLE_KEY` 입력됨, `SESSION_SECRET`은 자동 생성)
 
 ## 배포 (처음 한 번)
 
